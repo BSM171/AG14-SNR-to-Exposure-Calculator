@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exposure to SNR Calculator · v1.3.5 | Flarestar Observatory</title>
+<style>
+:root{color-scheme:light;--ink:#14263c;--sub:#5d7084;--line:#d8e2ec;--accent:#1763a2;--panel:#fff;--page:#f3f6fa;--warn:#8b5b0c}
+*{box-sizing:border-box}body{font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;margin:0;background:var(--page);color:var(--ink)}
+header{background:linear-gradient(115deg,#102c4a,#163a5b);color:white;padding:22px clamp(18px,4vw,58px)}header .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:#acd3ec}h1{font-size:clamp(24px,2.8vw,35px);font-weight:650;margin:4px 0 5px}header p{color:#c9deee;margin:0;max-width:850px}main{max-width:1550px;margin:auto;padding:20px clamp(12px,2.5vw,36px) 44px}.layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:17px;align-items:start}section,.panel{background:var(--panel);border:1px solid #dfe7ef;border-radius:12px;box-shadow:0 3px 16px rgba(19,44,70,.035)}.sidebar{padding:18px;display:grid;gap:13px}h2{font-size:17px;margin:0 0 10px}h3{font-size:14px;margin:13px 0 8px}label{display:block;color:#243e55;font-weight:580;font-size:12px;margin-bottom:4px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:9px}.pair>div{min-width:0}input[type=number],select{width:100%;border:1px solid #bfcfdf;border-radius:7px;background:#fff;color:#172c43;padding:8px 9px;font:inherit;font-size:14px}input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}.sliderbox{display:flex;align-items:center;gap:10px}.sliderbox input[type=number]{width:82px;flex:0 0 82px}.divider{border-top:1px solid var(--line);margin:2px 0}.checks{display:grid;grid-template-columns:1fr 1fr;gap:7px}.checks label,.inline-check{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;margin:0;cursor:pointer}.checks input,.inline-check input{accent-color:var(--accent)}.swatch{display:inline-block;width:11px;height:11px;border-radius:50%}.hint{color:var(--sub);font-size:12px;line-height:1.4;margin:4px 0 0}.note{padding:10px 12px;background:#f5f9fc;border-left:3px solid #84b4d8;font-size:12px;color:#41576b;border-radius:4px}.warning{background:#fff8e9;border-left-color:#d29a38;color:#725017}.actions{display:flex;gap:7px;flex-wrap:wrap}.btn{background:#1763a2;color:#fff;border:0;border-radius:7px;padding:9px 11px;font:inherit;font-size:12px;font-weight:650;cursor:pointer}.btn.secondary{background:white;color:#1b567e;border:1px solid #b6d0df}.btn:hover{filter:brightness(.94)}.btn:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #2195d5;outline-offset:2px}.results{min-width:0;display:grid;gap:15px}.panel{padding:17px 20px}.charttitle{font-size:17px;font-weight:700;margin-bottom:2px}.chartsubtitle{color:var(--sub);font-size:12px}.chartwrap{width:100%;min-width:0;position:relative}svg#chart{width:100%;height:auto;display:block;touch-action:pan-y}.svgtooltip{display:none;position:absolute;background:#112e49ed;color:white;font-size:12px;padding:8px 10px;border-radius:6px;pointer-events:none;white-space:pre-line;box-shadow:0 5px 12px #14263c33;max-width:230px;z-index:3}.legend{display:flex;gap:7px 16px;align-items:center;flex-wrap:wrap;font-size:12px;color:#364d64;margin:4px 0 0}.legend b{font-weight:500}.lgline{height:0;display:inline-block;width:21px;border-top:2.5px solid currentColor;vertical-align:middle;margin-right:5px}.lgline.dashed{border-top-style:dashed}.statgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:13px}.stat{background:#f3f7fa;border:1px solid #e5edf2;border-radius:7px;padding:10px}.stat .k{color:var(--sub);font-size:11px}.stat .v{font-size:21px;font-weight:650;margin:2px 0}.stat .u{font-size:11px;color:var(--sub)}.overflow{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th{text-align:left;color:#39536a;font-weight:650;background:#f1f6fa}td,th{padding:8px 10px;border-bottom:1px solid #e6edf4;white-space:nowrap}td.num{text-align:right;font-variant-numeric:tabular-nums}td.filt{font-weight:640}tfoot td{color:#57758c}.small{font-size:12px;color:var(--sub)}.status{display:inline-block;padding:2px 7px;border-radius:5px;font-size:11px;font-weight:650;background:#e2f3e9;color:#20653d}.status.alert{background:#fff0d7;color:#875405}.refs{font-size:12px;color:#3b5268}.refs li{padding:3px 0}.refs a{color:#095f9c}.outcome{font-size:13px;line-height:1.6}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px}.secondarygrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.twoline{display:flex;align-items:baseline;gap:10px;justify-content:space-between}.foot{font-size:11px;color:#6c8090;text-align:center;margin:18px 0 0}.error{color:#ac2938;font-weight:650}.tw{font-size:12px;float:right;color:#55718a}.versionlabel{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.035em;color:#e0f3ff;background:#ffffff23;border:1px solid #a9d5e766;border-radius:6px;padding:3px 9px;margin:8px 0 0}.cursor-table{min-width:680px}.cursor-table th{white-space:normal}.cursor-table td{vertical-align:top}.cursorcontrols{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin:12px 0 4px}.cursorcontrols label{font-size:12px;margin:0}.cursorcontrols select{width:auto;min-width:125px}.cursorreading{background:#eef6fb;border:1px solid #cadfe9;border-left:3px solid #1763a2;border-radius:7px;color:#21415b;font-size:13px;line-height:1.55;padding:9px 12px;min-height:42px;flex:1 1 360px}.cursorreading .important{font-weight:750}.cursorreading .alert{color:#953b16;font-weight:750}.cursorreading .muted{color:#587287}.cursorreading .mono{font-weight:550}.svgtooltip{max-width:335px}.releasenotes{margin:3px 0 0;padding-left:21px;font-size:12px;color:#4e667c}.releasenotes li{margin-bottom:5px}.tip{cursor:help;text-decoration:underline dotted #aabccc;text-underline-offset:3px}@media(max-width:1000px){.layout{grid-template-columns:1fr}.sidebar{grid-template-columns:repeat(2,1fr)}.sidebar>.divider{display:none}.sidebar>.wide{grid-column:1/-1}}@media(max-width:670px){.sidebar,.secondarygrid{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.panel{padding:13px}.sidebar{padding:15px}.pair{grid-template-columns:1fr 1fr}}
+#printReport{display:none}
+@media print{
+ @page{size:A4 portrait;margin:12mm}
+ html,body{margin:0!important;padding:0!important;background:white!important;color:#14263c!important}
+ body>header,body>main{display:none!important}
+ #printReport{display:block!important;width:100%;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+ #printReport svg{display:block;width:100%;height:auto;max-height:265mm;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header><div class="eyebrow">Flarestar Observatory · MPC 171 · Scientific planning utility</div><h1>Exposure to SNR Calculator</h1><p>Interactive AG14 (350 mm, f/3.8) + QHY268M exposure sensitivity, faint-source limits and per-pixel saturation. No server, account, or Internet connection required.</p><div class="versionlabel" id="versionBadge" aria-label="Calculator version">Version 1.3.5 · 29 October 2026</div></header>
+<main>
+<div class="layout">
+ <section class="sidebar" aria-label="Calculator controls">
+  <div><h2>Observation parameters</h2><label for="snr">Required S/N per exposure</label><div class="sliderbox"><input id="snrSlider" type="range" min="1" max="200" step="1" value="30" aria-label="SNR slider"><input id="snr" type="number" min="1" max="500" step="1" value="30" aria-label="Target SNR"></div><p class="hint">3: nominal detection · 30: moderate-precision photometry · ≥100: precision-oriented</p></div>
+  <div class="pair"><div><label for="tmin">Minimum exposure (s)</label><input type="number" id="tmin" min="0.001" max="1000" step="any" value="3"></div><div><label for="tmax">Maximum exposure (s)</label><input type="number" id="tmax" min="0.002" max="1000" step="any" value="1000"></div></div>
+  <div class="pair"><div><label for="sky">Clear-sky brightness (mag/arcsec²)</label><input id="sky" type="number" min="13" max="23" step="0.1" value="18"></div><div><label for="seeing">Seeing FWHM (arcsec)</label><input id="seeing" type="number" min="0.5" max="8" step="0.1" value="2.5"></div></div>
+  <div class="pair"><div><label for="radius">Aperture radius (pixels)</label><input id="radius" type="number" min="0.5" max="25" step="any" value="6"></div><div><label for="plateScaleInput">Image scale (arcsec/pixel)</label><input id="plateScaleInput" type="number" min="0.05" max="5" step="any" value="0.58"></div></div>
+  <p class="hint" id="radiusConversion">At the selected image scale: aperture radius = 3.48 arcsec (diameter 12 pixels).</p>
+  <div class="pair"><div><label for="profile">Camera setting</label><select id="profile"><option value="g0">Mode 1 · Gain 0</option><option value="g56">Mode 1 · Gain 56</option><option value="g58">Mode 1 · Gain 58</option></select></div></div>
+  <p class="hint">Default scale is 0.58 arcsec/pixel; 3.76 µm pixels at a 1330 mm focal length give approximately 0.583 arcsec/pixel (unbinned). Enter the actual <strong>native sensor</strong> image scale if different; software resampling does not change detector noise or saturation.</p>
+  <div><label>Filter curves</label><div class="checks" id="filterControls"></div></div>
+  <div class="divider"></div>
+<div class="wide"><h3>Magnitude offsets</h3><p class="hint">Offset = measured limit − predicted limit, at the same exposure and S/N. Example: 17.20 − 17.50 = <strong>−0.30 mag</strong>. Positive offsets move the limit fainter. <strong>Blank fields inherit the reference offset; 0.00 explicitly applies no correction.</strong></p><label for="offsetReference" style="margin-top:8px">Reference filter for blank fields</label><select id="offsetReference"><option value="B">B</option><option value="V" selected>V</option><option value="R">R</option><option value="I">I</option><option value="L">Clear (L)</option></select><div class="pair" style="margin-top:9px"><div><label for="offsetB">B offset (mag)</label><input id="offsetB" type="number" value="" placeholder="Use reference" min="-5" max="5" step="0.01"></div><div><label for="offsetV">V offset (mag)</label><input id="offsetV" type="number" value="" placeholder="Use reference" min="-5" max="5" step="0.01"></div><div><label for="offsetR">R offset (mag)</label><input id="offsetR" type="number" value="" placeholder="Use reference" min="-5" max="5" step="0.01"></div><div><label for="offsetI">I offset (mag)</label><input id="offsetI" type="number" value="" placeholder="Use reference" min="-5" max="5" step="0.01"></div><div><label for="offsetL">Clear (L) offset (mag)</label><input id="offsetL" type="number" value="" placeholder="Use reference" min="-5" max="5" step="0.01"></div></div><button id="resetOffsets" class="btn secondary" type="button" style="margin-top:8px">Clear all offsets</button><p id="offsetStatus" class="hint">No magnitude offsets applied.</p><p class="hint">The reference offset is a common magnitude correction for unmeasured bands, not an independent filter calibration. Corrections update curves, cursor S/N, errors and exposure recommendations. Sky background remains separately controlled. Use measurements representative of your observing conditions. Offsets are remembered in this browser when local storage is available.</p></div><div class="divider"></div>
+  <div><h3>Photometry precision options</h3><label class="inline-check"><input id="annulus" type="checkbox">Include sky-annulus estimation noise <span class="tip" title="Adds N_ap^2 / N_sky to the background variance, assuming independent sky pixels and a mean sky estimator.">ⓘ</span></label><div class="pair" style="margin-top:8px"><div><label for="skyPixels">Sky-annulus pixels</label><input id="skyPixels" type="number" value="250" min="20" max="100000" step="10"></div><div><label for="compSnr">Comparison-star S/N</label><input id="compSnr" type="number" value="100" min="1" max="10000" step="1"></div></div><p class="hint">Enable sky-annulus noise for more conservative aperture-photometry planning. It is disabled initially to reproduce the archived plots exactly.</p></div>
+  <div class="divider"></div>
+  <div class="wide"><h3>Target exposure planner</h3><div class="pair"><div><label for="targetBand">Target passband</label><select id="targetBand"><option value="B">B</option><option value="V" selected>V</option><option value="R">R</option><option value="I">I</option><option value="L">Clear (L)</option></select></div><div><label for="targetMag">Target magnitude</label><input id="targetMag" type="number" min="-5" max="30" step="0.1" value="17"></div></div><div class="note" id="planner" style="margin-top:10px" aria-live="polite"></div></div>
+  <div class="wide actions"><button id="preset3" class="btn secondary" type="button">S/N 3 · 0.001–1000s</button><button id="preset30" class="btn secondary" type="button">S/N 30 · 3–1000s</button><button id="reset" class="btn secondary" type="button">Reset model</button></div>
+  <div class="wide actions"><button id="printGraph" class="btn secondary" type="button">Print graph / Save PDF</button><button id="saveSvg" class="btn" type="button">Export SVG</button><button id="savePng" class="btn secondary" type="button">Export PNG</button><button id="saveCsv" class="btn secondary" type="button">Export CSV</button></div>
+ </section>
+ <div class="results">
+  <section class="panel"><div class="charttitle" id="chartTitle">QHY268M + 14″ f/3.8 · S/N = 30</div><div class="chartsubtitle" id="chartSub">Common sky normalized to clear (L) = 18.0 mag arcsec⁻² · Full noise equation</div><div class="chartwrap" id="chartwrap"><svg id="chart" role="img" aria-label="Predicted limiting magnitude and saturation curves. Hover to view S/N and magnitude errors for B, V, R, I, and Clear (L) at the cursor exposure and magnitude."></svg><div class="svgtooltip" id="tooltip"></div></div><div class="legend" id="legend"></div><div class="cursorcontrols"><label for="cursorBand">Detailed cursor readout band</label><select id="cursorBand" aria-label="Filter used for the detailed cursor readout"><option value="B">B</option><option value="V" selected>V</option><option value="R">R</option><option value="I">I</option><option value="L">Clear (L)</option></select><div class="cursorreading" id="cursorReading" aria-live="off">Hover inside the plot. The table below reports S/N and magnitude error for all five passbands at the cursor exposure and magnitude.</div></div><div class="overflow"><table class="cursor-table" aria-label="Predicted photometric precision by passband at the graph cursor"><thead><tr><th>Passband</th><th>Estimated S/N</th><th>Target-only 1σ error</th><th>Differential error</th><th>Status</th></tr></thead><tbody id="cursorRows"><tr><td colspan="5" class="small">Move the cursor inside the plot to calculate all five passbands.</td></tr></tbody></table></div><p class="small" id="cursorTableNote">Target-only uncertainty uses σm ≈ 1.0857/S/N. Differential uncertainty also includes the comparison-star S/N setting. Values are approximate; errors are suppressed for saturation or S/N &lt; 1, and the linear magnitude-error approximation is flagged below S/N 5. Systematic and calibration errors are excluded. The same numerical cursor magnitude is evaluated independently in each band.</p><p class="hint" id="chartNote">Solid = faint-source S/N limit. Dashed = first saturated stellar pixel. Saturation is independent of selected S/N.</p><div class="statgrid"><div class="stat"><div class="k">Plate scale</div><div class="v" id="plateScale">0.580″</div><div class="u">arcseconds per pixel</div></div><div class="stat"><div class="k">Photometric aperture</div><div class="v" id="nPix">113.1</div><div class="u">effective pixels</div></div><div class="stat"><div class="k">Target-only random error</div><div class="v" id="photoError">0.036</div><div class="u">mag ≈ 1.086/SNR</div></div><div class="stat"><div class="k">With comparison star</div><div class="v" id="diffError">0.038</div><div class="u">mag; photon/read/sky only</div></div></div></section>
+  <section class="panel"><div class="twoline"><h2>Calculated limiting magnitudes <span class="tw" id="tableLabel">at 300 s</span></h2><div style="min-width:140px"><label for="refTime">Reference exposure (s)</label><input id="refTime" type="number" min="0.001" max="1000" value="300" step="1"></div></div><div class="overflow"><table><thead><tr><th>Passband</th><th>Faint limit<br>(mag, selected S/N)</th><th>Bright saturation<br>(mag)</th><th>Sky per pixel<br>(e⁻/frame)</th><th>Frame status</th></tr></thead><tbody id="resultsRows"></tbody></table></div><p class="small">A magnitude fainter than the solid curve has lower S/N; a magnitude brighter than the dashed curve risks central-pixel saturation. Each row assumes the same exposure and current settings.</p></section>
+  <div class="secondarygrid"><section class="panel"><h2>Model validation <span class="status" id="statusBadge">Testing</span></h2><div class="outcome" id="validation"></div><p class="small" id="legacyAudit"></p></section><section class="panel"><h2>Photometry standards and limitations</h2><p class="outcome" id="norms"></p><p class="small">The cursor shows approximate 1σ uncertainty based on <span class="mono">1.085736/SNR</span> for the source alone; differential error also includes the selected comparison-star S/N. The first-order magnitude error becomes asymmetric at low S/N and excludes calibration/systematic effects. The plot models a single image, not stacked-frame precision. The clear (L) band is an instrumental band, not a standard calibrated magnitude system. Standard photometry requires calibrated images, appropriate comparison stars, colour transformation where necessary, verified detector linearity and reported measurement uncertainty.</p></section></div>
+  <section class="panel"><h2>Equations, provenance and references</h2><p class="outcome">For a Gaussian stellar PSF, stellar electrons in the aperture are <span class="mono">S = k₀ × 10^(−0.4m) × t × E(r)</span>, where <span class="mono">E(r) = 1 − exp[−r²/(2σ²)]</span>. The model solves <span class="mono">q = S/√(S + C)</span>, with <span class="mono">C = (Nₐ + Nₐ²/Nsky)×[(Bpix + Dpix)t + RN²]</span>. The sky-annulus term is set to zero in archived-graph mode. At selected q, the limiting stellar signal is <span class="mono">S = ½[q² + √(q⁴ + 4q²C)]</span>. Bright saturation occurs when the modeled peak pixel reaches the camera full well after addition of sky and dark background.</p><p class="small"><strong>Measured detector inputs:</strong> Mode 1/Gain 0, RN = 3.56 e⁻, full well = 50,462 e⁻, dark = 0.00156 e⁻/pix/s at −10°C; Mode 1/Gain 56, RN = 1.66 e⁻, full well = 21,626 e⁻, dark = 0.001641; Gain 58, RN = 1.59 e⁻, full well = 20,971 e⁻, dark = 0.001575 (Rossi, 2021). Pixel pitch 3.76 µm; focal length 1330 mm. Assumed optical obstruction 120 mm; assumed Gaussian FWHM 2.5″; default aperture radius = 6 native pixels (3.48″ at the default 0.58″/pixel). User-editable image scale is applied to pixel area, sky counts, peak-pixel fraction, and aperture encircled energy. This assumes independent native pixels; resampled or binned images require additional treatment.</p><p class="small"><strong>Uncalibrated modeling inputs:</strong> nominal zero-magnitude integrated photon fluxes (B/V/R/I/L: 8.7/8.8/11/12.5/26 × 10⁹ photons m⁻² s⁻¹); effective system throughput (B/V/R/I/L: 0.36/0.41/0.42/0.32/0.55); sky magnitudes at clear = 18.0 (B/V/R/I/L: 19.11/18.31/18.01/16.81/18.00 mag arcsec⁻²). Other sky brightness values shift all five sky magnitudes by the same amount. These assumptions were carried forward <strong>solely for numerical continuity</strong> with the earlier S/N = 30 graph. Their absolute photometric zero-points have <strong>not</strong> been empirically validated at Flarestar.</p>
+   <ol class="refs"><li>Howell, S. B. (1989). Two-dimensional aperture photometry: Signal-to-noise ratio of point-source observations and optimal data-extraction techniques. <em>PASP, 101</em>, 616–622. <a href="https://ui.adsabs.harvard.edu/abs/1989PASP..101..616H/abstract" target="_blank" rel="noopener">ADS record</a>.</li><li>Rossi, G. (2021). <em>Testing the QHY 268 Mono for science observations</em>. QHYCCD. <a href="https://www.qhyccd.com/testing-the-qhy-268-mono-for-science-observations/" target="_blank" rel="noopener">Detector characterization</a>.</li><li>AAVSO. <em>Building an Observing Profile</em>; <em>Stellar Photometry</em>. <a href="https://aavso.org/building-an-observing-profile/" target="_blank" rel="noopener">S/N guidance</a>; <a href="https://aavso.org/stellar-photometry/" target="_blank" rel="noopener">best practices</a>.</li><li>Buzzoni, A., et al. (2025). The TANDEM Project as a Pilot Case for Wide-field Telescope Arrays. <em>The Astronomical Journal, 169</em>, 53. <a href="https://doi.org/10.3847/1538-3881/ad93a2" target="_blank" rel="noopener">DOI</a>. Equation (13) uses a sky-limited approximation rather than this full noise equation.</li><li>NASA/STScI. <em>HST ACS Instrument Handbook: Computing Exposure Times</em>. <a href="https://hst-docs.stsci.edu/acsihb/chapter-9-exposure-time-calculations/9-3-computing-exposure-times" target="_blank" rel="noopener">Independent CCD S/N formulation</a>.</li></ol>
+  </section>
+ </div>
+</div><p class="foot">Exposure to SNR Calculator Flarestar Observatory · Offline single-file app · Theoretical performance planning, not a substitute for measured site calibration.</p>
+</main>
+<div id="printReport" aria-hidden="true"></div>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+// Increment APP_VERSION and the visible version history whenever publishing modifications.
+const APP_VERSION='1.3.5', APP_DATE='29 October 2026';
+const bands=['B','V','R','I','L'];
+const names={B:'B',V:'V',R:'R',I:'I',L:'Clear (L)'};
+const cols={B:'#16a6df',V:'#73c843',R:'#f23236',I:'#842020',L:'#161616'};
+const plotCols={B:'#60e2ff',V:'#bcff85',R:'#ffab86',I:'#edb5ff',L:'#ffffff'};
+const photon={B:8.7e9,V:8.8e9,R:1.1e10,I:1.25e10,L:2.6e10};
+const eta={B:.36,V:.41,R:.42,I:.32,L:.55};
+const skyBase={B:19.11,V:18.31,R:18.01,I:16.81,L:18};
+const profiles={g0:{RN:3.56,FW:50462,dark:.00156},g56:{RN:1.66,FW:21626,dark:.001641},g58:{RN:1.59,FW:20971,dark:.001575}};
+const AREA=Math.PI/4*(.35*.35-.12*.12);
+const SCALE=206.265*3.76/1330; // Native unbinned QHY268M 3.76 µm pixels at 1330 mm focal length
+const state={snr:30,tmin:3,tmax:1000,sky:18,seeing:2.5,radius:6,scale:0.58,profile:'g0',annulus:false,skyPixels:250,compSnr:100,refTime:300,targetMag:17,targetBand:'V',cursorBand:'V',on:new Set(bands)};
+state.magOffsets={B:0,V:0,R:0,I:0,L:0};
+const baseline={...state,magOffsets:{...state.magOffsets},on:new Set(bands)};
+const number=(id,dflt,lo,hi)=>{let v=Number($(id).value);return Number.isFinite(v)?Math.min(hi,Math.max(lo,v)):dflt};
+const fmt=(n,d=2)=>(Number.isFinite(n)?n.toFixed(d):'—');
+const model=(p,t,q,band)=>{
+ const sig=p.seeing/2.3548;
+ const radiusArc=p.radius*p.scale;
+ const np=Math.PI*p.radius*p.radius;
+ const ee=1-Math.exp(-radiusArc*radiusArc/(2*sig*sig));
+ const peak=(p.scale*p.scale)/(2*Math.PI*sig*sig);
+ const nominalK=AREA*photon[band]*eta[band];
+ const k=nominalK*Math.pow(10,.4*(p.magOffsets?.[band]??0));
+ const skyMu=skyBase[band]+(p.sky-18);
+ const skyRate=nominalK*Math.pow(10,-.4*skyMu)*p.scale*p.scale;
+ const cam=profiles[p.profile];
+ const skyBg=(skyRate+cam.dark)*t;
+ const factor=np+(p.annulus?np*np/p.skyPixels:0);
+ const C=factor*(skyBg+cam.RN*cam.RN);
+ const S=.5*(q*q+Math.sqrt(Math.pow(q,4)+4*q*q*C));
+ const limiting=-2.5*Math.log10(S/(t*ee*k));
+ const remain=cam.FW-skyBg;
+ const sat=(remain>0)?-2.5*Math.log10(remain/(t*peak*k)):NaN;
+ return {limiting,sat,skyBg,skyRate,ee,np,peak,k,C,S,cam};
+};
+const qAt=(p,t,mag,band)=>{const m=model(p,t,3,band);const S=m.k*Math.pow(10,-.4*mag)*t*m.ee;return S/Math.sqrt(S+m.C)};
+// 1-sigma propagation of count uncertainty through magnitude: sigma_m = (2.5/ln 10)/SNR.
+// Gaussian / linearized approximation, not a guarantee of real-world differential photometric accuracy.
+const MAG_FACTOR=2.5/Math.log(10);
+const magError=(q)=>Number.isFinite(q)&&q>0?MAG_FACTOR/q:NaN;
+const diffMagError=(q,qcomp)=>Number.isFinite(q)&&q>0&&qcomp>0?MAG_FACTOR*Math.hypot(1/q,1/qcomp):NaN;
+function cursorPhotometry(p,t,mag,band){
+ const m=model(p,t,p.snr,band);
+ if(!Number.isFinite(m.sat))return {valid:false,reason:'Sky background alone reaches full well',snr:NaN,magError:NaN,diffError:NaN,sat:m.sat};
+ if(mag<=m.sat)return {valid:false,reason:'Stellar peak pixel saturated',snr:NaN,magError:NaN,diffError:NaN,sat:m.sat};
+ const snr=qAt(p,t,mag,band);
+ return {valid:snr>=1,reason:snr<1?'S/N < 1: magnitude uncertainty is not reliable':'',snr,magError:snr>=1?magError(snr):NaN,diffError:snr>=1?diffMagError(snr,p.compSnr):NaN,sat:m.sat,lowSNR:snr<5};
+}
+function cursorTableRows(p,t,mag){
+ let rows='';
+ for(const band of bands){
+  const o=cursorPhotometry(p,t,mag,band);
+  let status,statusClass;
+  if(!o.valid){statusClass='alert';status=o.reason==='Sky background alone reaches full well'?'Sky saturated':o.reason==='Stellar peak pixel saturated'?'Star saturated':'S/N below 1';}
+  else if(o.lowSNR){statusClass='alert';status='Low S/N; σ approximate';}
+  else{statusClass='';status='Estimate available';}
+  rows+='<tr><td class="filt"><span class="swatch" style="background:'+cols[band]+'"></span> '+names[band]+'</td><td class="num">'+fmt(o.snr,2)+'</td><td class="num">'+(o.valid?'±'+fmt(o.magError,3):'—')+'</td><td class="num">'+(o.valid?'±'+fmt(o.diffError,3):'—')+'</td><td><span class="status '+statusClass+'">'+status+'</span></td></tr>';
+ }
+ return rows;
+}
+const inverseTime=(p,mag,band,q)=>{
+ const m=model(p,1,q,band),cam=profiles[p.profile];
+ const a=m.k*Math.pow(10,-.4*mag)*m.ee;
+ const v=(m.np+(p.annulus?m.np*m.np/p.skyPixels:0));
+ const b=v*(m.skyRate+cam.dark),c=v*cam.RN*cam.RN;
+ const u=q*q*(a+b);
+ return (u+Math.sqrt(u*u+4*a*a*q*q*c))/(2*a*a);
+};
+const satTime=(p,mag,band)=>{const m=model(p,1,3,band),cam=profiles[p.profile];return cam.FW/(m.skyRate+cam.dark+m.k*Math.pow(10,-.4*mag)*m.peak)};
+const el=(tag,attrs={},inner='')=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,String(v));if(inner)n.textContent=inner;return n};
+function setupFilters(){for(const b of bands){const l=document.createElement('label');l.innerHTML=`<input type="checkbox" checked data-band="${b}"><span class="swatch" style="background:${cols[b]}"></span>${names[b]}`; $('filterControls').appendChild(l);}document.querySelectorAll('[data-band]').forEach(x=>x.addEventListener('change',e=>{const band=e.target.dataset.band;if(e.target.checked)state.on.add(band);else state.on.delete(band);render()}));}
+function read(){
+ const entered=bands.filter(b=>$('offset'+b).value.trim()!==''&&Number.isFinite(Number($('offset'+b).value)));
+ let ref=$('offsetReference').value;if(!entered.includes(ref))ref=entered[0]||ref;
+ $('offsetReference').value=ref;state.offsetReference=ref;state.offsetEntered=entered;
+ const common=entered.includes(ref)?number('offset'+ref,0,-5,5):0;
+ state.magOffsets=Object.fromEntries(bands.map(b=>[b,entered.includes(b)?number('offset'+b,0,-5,5):common]));
+ state.snr=number('snr',30,1,500);state.sky=number('sky',18,13,23);state.seeing=number('seeing',2.5,.5,8);state.radius=number('radius',6,.5,25);state.scale=number('plateScaleInput',0.58,.05,5);state.tmin=number('tmin',3,.001,999);state.tmax=number('tmax',1000,.002,1000);
+ if(state.tmax<=state.tmin)state.tmax=Math.min(1000,Math.max(state.tmin*1.01,state.tmin+.001));
+ state.profile=$('profile').value;state.annulus=$('annulus').checked;state.skyPixels=number('skyPixels',250,20,100000);state.compSnr=number('compSnr',100,1,10000);state.refTime=number('refTime',300,.001,1000);state.targetMag=number('targetMag',17,-5,30);state.targetBand=$('targetBand').value;state.cursorBand=$('cursorBand').value;
+ $('snr').value=state.snr;$('snrSlider').value=Math.min(200,state.snr);
+}
+function setValues(v){if(v.magOffsets)for(const b of bands)$('offset'+b).value=v===baseline?'':v.magOffsets[b]??'';for(const [k,id] of [['snr','snr'],['sky','sky'],['seeing','seeing'],['radius','radius'],['scale','plateScaleInput'],['tmin','tmin'],['tmax','tmax'],['profile','profile'],['refTime','refTime'],['targetMag','targetMag'],['targetBand','targetBand'],['skyPixels','skyPixels'],['compSnr','compSnr']])if(v[k]!==undefined)$(id).value=v[k];$('snrSlider').value=Math.min(200,v.snr??30);$('annulus').checked=!!v.annulus;read();render()}
+function render(){read();draw();summary();planner();standards();const entered=state.offsetEntered,ref=state.offsetReference,inherited=bands.filter(b=>!entered.includes(b));$('offsetStatus').textContent=entered.length?'Reference: '+names[ref]+' '+(state.magOffsets[ref]>0?'+':'')+fmt(state.magOffsets[ref],3)+' mag. '+(inherited.length?'Inherited by '+inherited.map(b=>names[b]).join(', ')+'. ':'')+'Entered: '+entered.map(b=>names[b]+' '+(state.magOffsets[b]>0?'+':'')+fmt(state.magOffsets[b],3)).join(' · ')+'.':'No offsets entered; original model used for all filters.';}
+
+function gridText(svg,x,y,value,attrs={}){svg.appendChild(el('text',{x,y,fill:'#425466','font-size':14,...attrs},value))}
+const W=1090,H=650,left=75,right=30,top=20,bottom=108;
+const plotW=W-left-right,plotH=H-top-bottom;
+let graphCache={};
+function draw(){const p=state,svg=$('chart');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.replaceChildren();$('cursorReading').innerHTML='Hover inside the plot. The table below reports S/N and magnitude error for all five passbands at the cursor exposure and magnitude.';$('cursorRows').innerHTML='<tr><td colspan="5" class="small">Move the cursor inside the plot to calculate all five passbands.</td></tr>';
+ $('chartTitle').textContent=`QHY268M + 14″ f/3.8 · S/N = ${p.snr}`;$('chartSub').textContent=`One common sky · Clear (L) = ${fmt(p.sky,1)} mag arcsec⁻² · ${p.profile==='g0'?'Mode 1 / Gain 0':p.profile==='g56'?'Mode 1 / Gain 56':'Mode 1 / Gain 58'} · ${p.annulus?'with sky-annulus noise':'archived ideal-sky-noise model'}`;
+ const adjusted=bands.filter(b=>p.magOffsets[b]!==0);if(adjusted.length)$('chartSub').textContent+=' · Offsets: '+adjusted.map(b=>names[b]+' '+(p.magOffsets[b]>0?'+':'')+fmt(p.magOffsets[b],2)).join(', ')+' mag';
+ const N=270,data={};const logL=Math.log10(p.tmin),logR=Math.log10(p.tmax);let minMag=Infinity,maxMag=-Infinity;
+ for(const b of bands){data[b]=[];for(let j=0;j<N;j++){const t=Math.pow(10,logL+(logR-logL)*j/(N-1)),m=model(p,t,p.snr,b);data[b].push({t,...m});if(p.on.has(b)){for(const k of ['limiting','sat'])if(Number.isFinite(m[k])){minMag=Math.min(minMag,m[k]);maxMag=Math.max(maxMag,m[k]);}}}}
+ if(!Number.isFinite(minMag)){minMag=8;maxMag=22;}const yLow=Math.floor(minMag-0.6),yHigh=Math.ceil(maxMag+0.6);const ySpan=Math.max(4,yHigh-yLow);
+ const X=t=>left+plotW*(Math.log10(t)-logL)/(logR-logL);
+ const Y=m=>top+plotH*(m-yLow)/ySpan;
+ const defs=el('defs'),clip=el('clipPath',{id:'graphclip'});clip.appendChild(el('rect',{x:left,y:top,width:plotW,height:plotH}));defs.appendChild(clip);svg.appendChild(defs);
+ svg.appendChild(el('rect',{x:left,y:top,width:plotW,height:plotH,fill:'#193796',stroke:'#869de4','stroke-width':1}));
+ // All five modeled bands define shading, regardless of curve visibility.
+ // Smaller magnitude is higher on the inverted axis; sky-only saturation
+ // contributes +Infinity (saturated at every magnitude).
+ const shades=el('g',{'clip-path':'url(#graphclip)','pointer-events':'none'});svg.appendChild(shades);
+ function shade(points,edge,fill,id){
+  const bounded=points.map(pt=>[X(pt.t),Math.max(top,Math.min(H-bottom,Y(pt.mag)))]);
+  const d='M'+bounded[0][0]+','+edge+' '+bounded.map(([x,y])=>'L'+x+','+y).join(' ')+' L'+bounded[bounded.length-1][0]+','+edge+' Z';
+  shades.appendChild(el('path',{id,d,fill}));
+ }
+ shade(data.L.map(pt=>({t:pt.t,mag:pt.limiting})),H-bottom,'#04143f','clearLowSnrShade');
+ shade(data.L.map((pt,j)=>({t:pt.t,mag:Math.min(...bands.map(b=>Number.isFinite(data[b][j].sat)?data[b][j].sat:Infinity))})),top,'#92b7ff','saturationShade');
+ const exposureRefs=[5,10,20,30,45,60,90,120,180,240,300];
+ const tickValues=new Set(exposureRefs.filter(t=>t>=p.tmin&&t<=p.tmax));
+ const decadeFrom=Math.floor(logL),decadeTo=Math.ceil(logR);
+ for(let d=decadeFrom;d<=decadeTo;d++){for(let n=1;n<=9;n++){
+  const t=n*Math.pow(10,d);if(t<p.tmin||t>p.tmax)continue;
+  if(n===1&&t!==100)tickValues.add(t);
+  if(exposureRefs.includes(t))continue;
+  const x=X(t);svg.appendChild(el('line',{x1:x,x2:x,y1:top,y2:H-bottom,stroke:n===1&&t!==100?'#869de466':'#869de42b','stroke-width':n===1&&t!==100?1.15:.7}));
+ }}
+ // Greedy label rows preserve every reference at its exact logarithmic position.
+ const rowEnds=[];
+ for(const t of [...tickValues].sort((a,b)=>a-b)){
+  const x=X(t),reference=exposureRefs.includes(t),label=String(t),half=label.length*4.2;
+  if(reference)svg.appendChild(el('line',{x1:x,x2:x,y1:top,y2:H-bottom,stroke:'#b6ccff66','stroke-width':1,'data-exposure-reference':t}));
+  let row=rowEnds.findIndex(end=>x-half>end+7);if(row<0)row=rowEnds.length;
+  rowEnds[row]=x+half;
+  svg.appendChild(el('line',{x1:x,x2:x,y1:H-bottom,y2:H-bottom+7,stroke:'#425466','stroke-width':1}));
+  gridText(svg,x,H-bottom+23+row*20,label,{'text-anchor':'middle','font-size':14,'font-weight':reference?600:400,'data-exposure-tick':t});
+ }
+ for(let y=Math.ceil(yLow);y<=yLow+ySpan;y++){const yy=Y(y);svg.appendChild(el('line',{x1:left,x2:W-right,y1:yy,y2:yy,stroke:'#869de455','stroke-width':.9}));gridText(svg,left-12,yy+5,String(y),{'text-anchor':'end'});}
+ // Plot curves on a clipping group, retaining the original dashed/single-colour scheme.
+ const group=el('g',{'clip-path':'url(#graphclip)'});svg.appendChild(group);
+ for(const b of bands){if(!p.on.has(b))continue;
+  for(const [type,dash] of [['limiting',false],['sat',true]]){
+   let parts=[],segment=[];const flush=()=>{if(segment.length>1)parts.push(segment.join(' '));segment=[]};
+   for(const pt of data[b]){const v=pt[type];if(!Number.isFinite(v)){flush();continue;}segment.push((segment.length?'L':'M')+X(pt.t).toFixed(2)+','+Y(v).toFixed(2));}flush();
+   const path=el('path',{d:parts.join(' '),'data-curve-band':b,fill:'none',stroke:plotCols[b],'stroke-width':b==='L'?2.9:2.2,'stroke-dasharray':dash?'9 6':'none','stroke-linecap':'round'});group.appendChild(path);
+  }
+ }
+ gridText(svg,(left+W-right)/2,H-14,'Exposure time [s]',{'font-size':18,'text-anchor':'middle',fill:'#233b50'});
+ const ylabel=el('text',{x:22,y:(top+H-bottom)/2,transform:`rotate(-90,22,${(top+H-bottom)/2})`,'text-anchor':'middle','font-size':18,fill:'#233b50'},'Magnitude');svg.appendChild(ylabel);
+ const rect=el('rect',{x:left,y:top,width:plotW,height:plotH,fill:'transparent',style:'cursor:crosshair','data-export-ignore':'true'});svg.appendChild(rect);
+ const vertical=el('line',{x1:left,x2:left,y1:top,y2:H-bottom,stroke:'#c7ddff','stroke-width':1.2,'stroke-dasharray':'4 4',visibility:'hidden','pointer-events':'none','data-export-ignore':'true'});svg.appendChild(vertical);
+ const horizontal=el('line',{x1:left,x2:W-right,y1:top,y2:top,stroke:'#c7ddff','stroke-width':1.2,'stroke-dasharray':'4 4',visibility:'hidden','pointer-events':'none','data-export-ignore':'true'});svg.appendChild(horizontal);
+ const marker=el('circle',{cx:left,cy:top,r:5,fill:'#fff',stroke:'#1763a2','stroke-width':2,visibility:'hidden','pointer-events':'none','data-export-ignore':'true'});svg.appendChild(marker);
+ const tip=$('tooltip');function pointerMove(event){
+  const bounds=svg.getBoundingClientRect();const svgX=(event.clientX-bounds.left)/bounds.width*W,svgY=(event.clientY-bounds.top)/bounds.height*H;
+  const xx=Math.max(left,Math.min(W-right,svgX)),yy=Math.max(top,Math.min(H-bottom,svgY));
+  const t=Math.pow(10,logL+(xx-left)/plotW*(logR-logL));const mag=yLow+(yy-top)/plotH*ySpan;
+  const b=p.cursorBand,output=cursorPhotometry(p,t,mag,b),m=model(p,t,p.snr,b);
+  vertical.setAttribute('x1',xx);vertical.setAttribute('x2',xx);vertical.setAttribute('visibility','visible');
+  horizontal.setAttribute('y1',yy);horizontal.setAttribute('y2',yy);horizontal.setAttribute('visibility','visible');
+  marker.setAttribute('cx',xx);marker.setAttribute('cy',yy);marker.setAttribute('visibility','visible');
+  const timeval=t>=10?fmt(t,1):fmt(t,3);
+  let lines=['Exposure: '+timeval+' s · Cursor magnitude: '+fmt(mag,2)+' mag'];
+  for(const band of bands){const reading=cursorPhotometry(p,t,mag,band);const err=reading.valid?'±'+fmt(reading.magError,3)+' mag':reading.reason;lines.push(names[band]+': S/N '+(Number.isFinite(reading.snr)?fmt(reading.snr,2):'—')+' · σm '+err);}
+  let r='<strong>Cursor: '+timeval+' s · '+names[b]+' = '+fmt(mag,2)+'</strong> · actual calculated S/N: <strong>'+(Number.isFinite(output.snr)?fmt(output.snr,2):'—')+'</strong>. ';
+  if(output.valid){
+   r+='<span class="important">Expected 1σ magnitude error: ±'+fmt(output.magError,3)+' mag</span> (target only). With comparison-star S/N '+fmt(p.compSnr,0)+': <strong>±'+fmt(output.diffError,3)+' mag</strong>.';
+   if(output.lowSNR)r+=' <span class="alert">Low S/N: magnitude uncertainties are asymmetric and the linear approximation is unreliable.</span>';
+  }else{r+='<span class="alert">'+output.reason+'; no reliable magnitude-error prediction.</span>';}
+  lines.push('Selected S/N='+p.snr+' limit: '+fmt(m.limiting,2)+' mag');
+  tip.textContent=lines.join('\n');tip.style.display='block';
+  const xPix=(xx/W)*bounds.width,yPix=(yy/H)*bounds.height,tipWidth=375,tipHeight=190;
+  tip.style.left=Math.max(0,Math.min(bounds.width-tipWidth,xPix+12))+'px';
+  tip.style.top=Math.max(0,Math.min(bounds.height-tipHeight,yPix-12))+'px';
+  $('cursorReading').innerHTML=r;$('cursorRows').innerHTML=cursorTableRows(p,t,mag);
+ }
+ rect.addEventListener('pointermove',pointerMove);rect.addEventListener('pointerleave',()=>{vertical.setAttribute('visibility','hidden');horizontal.setAttribute('visibility','hidden');marker.setAttribute('visibility','hidden');tip.style.display='none'});
+ graphCache={data,x:X,y:Y};
+ $('legend').innerHTML=bands.filter(b=>p.on.has(b)).map(b=>`<span style="color:${plotCols[b]};background:#193796;padding:3px 7px;border-radius:4px"><i class="lgline"></i> <b>${names[b]}</b></span>`).join('')+'<span><i class="lgline"></i>Solid: S/N limit</span><span><i class="lgline dashed"></i>Dashed: saturation</span>';
+ $('plateScale').textContent=fmt(p.scale,3)+'″';$('nPix').textContent=fmt(Math.PI*p.radius*p.radius,1);$('radiusConversion').textContent=`Equivalent aperture radius: ${fmt(p.radius*p.scale,3)} arcsec · diameter: ${fmt(p.radius*2,3)} pixels · ${fmt(p.radius*p.scale*2,3)} arcsec`;$('photoError').textContent=fmt(1.0857362/p.snr,3);$('diffError').textContent=fmt(1.0857362*Math.sqrt(1/(p.snr*p.snr)+1/(p.compSnr*p.compSnr)),3);
+ $('chartNote').textContent='Solid: single-exposure S/N threshold. Dashed: modeled stellar pixel saturation; changing S/N does not move saturation. Very dark blue: Clear (L) below the selected S/N. Light blue: above the uppermost saturation curve (smallest magnitude), where all five bands saturate. Shading always uses all five bands, including hidden curves; ultramarine is not a guarantee that every band is usable. Sky-only full-well exhaustion is included in shading; its saturation curve is omitted.';
+}
+function summary(){const p=state,t=p.refTime;$('tableLabel').textContent=`at ${t} s`;
+ let rows='';for(const b of bands){const m=model(p,t,p.snr,b);const status=!Number.isFinite(m.sat)?'<span class="error">Sky saturated</span>':m.limiting<=m.sat?'<span class="error">No range</span>':'Usable span';rows+=`<tr><td class="filt"><span class="swatch" style="background:${cols[b]}"></span> ${names[b]}</td><td class="num">${fmt(m.limiting,3)}</td><td class="num">${fmt(m.sat,3)}</td><td class="num">${fmt(m.skyBg,0)}</td><td>${status}</td></tr>`;}$('resultsRows').innerHTML=rows;}
+function planner(){const p=state,m=p.targetMag,b=p.targetBand,q=p.snr,t=inverseTime(p,m,b,q),tSat=satTime(p,m,b);let msg=`For <strong>${names[b]} = ${fmt(m,2)}</strong>, estimated minimum exposure to achieve <strong>S/N ${q}</strong>: <strong>${fmt(t,2)} s</strong>. `;
+ if(t>tSat)msg+=`<strong class="error">Not achievable without saturation at the stated settings:</strong> the first pixel reaches full well at ≈ ${fmt(tSat,2)} s. `;
+ else msg+=`The target's estimated pixel-saturation exposure is ${fmt(tSat,1)} s. `;
+ if(t>1000)msg+='Required exposure lies beyond the plotted 1000 s maximum.';
+ msg+='<br><span class="small">Prediction assumes a stationary point source. Moving asteroids require a trailing correction; occultations require event-duration and timing analysis.</span>';
+ $('planner').innerHTML=msg;
+}
+function standards(){const p=state;let text=`At S/N ${p.snr}, the target-only magnitude error floor is <strong>${fmt(1.0857362/p.snr,3)} mag</strong>; when compared against a star with S/N ${p.compSnr}, the estimated differential floor becomes <strong>${fmt(1.0857362*Math.sqrt(1/p.snr**2+1/p.compSnr**2),3)} mag</strong>. `;
+ if(p.snr<100)text+='<strong>The AAVSO advises striving for S/N ≥ 100 in precision stellar photometry.</strong> S/N = 30 can be useful for larger-amplitude variations, but is not a universal precision standard. ';else text+='This S/N is consistent with the AAVSO precision-oriented target, before systematic and comparison-star effects. ';
+ if(!p.annulus)text+='The current curve omits extra variance from finite sky-annulus estimation; activate this option for more conservative photometric calculations.';else text+='Finite sky-annulus estimation noise is included (Gaussian mean-sky approximation).';
+ $('norms').innerHTML=text;}
+function makeCsv(){let rows=['exposure_s,band,snr,limiting_mag,saturation_mag,sky_e_per_pixel,read_noise_e,full_well_e,sky_annulus_noise,aperture_radius_pix,plate_scale_arcsec_per_pix,aperture_radius_arcsec,magnitude_offset,offset_origin'];for(let j=0;j<320;j++){const t=Math.pow(10,Math.log10(state.tmin)+(Math.log10(state.tmax)-Math.log10(state.tmin))*j/319);for(const b of bands){const m=model(state,t,state.snr,b);rows.push([t.toPrecision(12),names[b],state.snr,m.limiting.toFixed(8),Number.isFinite(m.sat)?m.sat.toFixed(8):'',m.skyBg.toFixed(6),m.cam.RN,m.cam.FW,state.annulus,state.radius.toPrecision(12),state.scale.toPrecision(12),(state.radius*state.scale).toPrecision(12),state.magOffsets[b],state.offsetEntered.includes(b)?'entered':state.offsetEntered.length?'inherited_'+state.offsetReference:'nominal'].join(','));}}return rows.join('\n')+'\n';}
+function download(blob,name){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+function reportSVG(printMode=false){
+ const outputCols=printMode?{B:'#0077b5',V:'#237c32',R:'#cf3034',I:'#783b91',L:'#151515'}:plotCols;
+ const root=el('svg',{xmlns:'http://www.w3.org/2000/svg',width:W,'font-family':'Arial, sans-serif',role:'img','aria-label':'Exposure to SNR report with headings and observing settings'});
+ root.appendChild(el('title',{},'Exposure to SNR Calculator · v'+APP_VERSION));
+ const bg=el('rect',{x:0,y:0,width:W,fill:'#fff'});root.appendChild(bg);
+ const tx=(x,y,text,size=14,extra={})=>root.appendChild(el('text',{x,y,fill:'#14263c','font-size':size,...extra},text));
+ tx(30,36,'Exposure to SNR Calculator',28,{'font-weight':700});
+ tx(30,60,'Flarestar Observatory · MPC 171 · Version '+APP_VERSION+' · '+APP_DATE,14);
+ tx(30,96,$('chartTitle').textContent,21,{'font-weight':700});
+ let y=120;
+ function paragraph(text){let line='';for(const word of text.split(/\s+/)){if((line+' '+word).trim().length>132){tx(30,y,line);y+=19;line=word;}else line+=(line?' ':'')+word;}if(line){tx(30,y,line);y+=19;}}
+ paragraph($('chartSub').textContent);
+ paragraph('Seeing: '+fmt(state.seeing,2)+' arcsec · Aperture radius: '+fmt(state.radius,3)+' pixels · Scale: '+fmt(state.scale,3)+' arcsec/pixel · Exposure range: '+state.tmin+'–'+state.tmax+' s');
+ paragraph('Sky-annulus noise: '+(state.annulus?'included ('+state.skyPixels+' pixels)':'not included')+' · Comparison-star S/N: '+state.compSnr+' · '+$('offsetStatus').textContent);
+ const chartTop=y+4,chart=$('chart').cloneNode(true);
+ chart.querySelectorAll('[data-export-ignore]').forEach(n=>n.remove());
+ chart.removeAttribute('id');
+ if(printMode){
+  chart.querySelectorAll('#clearLowSnrShade,#saturationShade').forEach(n=>n.remove());
+  chart.querySelectorAll('rect[fill="#193796"]').forEach(n=>{n.setAttribute('fill','#ffffff');n.setAttribute('stroke','#8995a3')});
+  chart.querySelectorAll('path[data-curve-band]').forEach(n=>n.setAttribute('stroke',outputCols[n.getAttribute('data-curve-band')]));
+  chart.querySelectorAll('line').forEach(n=>n.setAttribute('stroke',Number(n.getAttribute('y1'))>=H-bottom?'#425466':'#d5dce4'));
+ }
+ // Give the printed clone its own clipping ID, independent of the live graph.
+ const clip=chart.querySelector('#graphclip');if(clip){clip.setAttribute('id','reportGraphClip');chart.querySelectorAll('[clip-path]').forEach(n=>n.setAttribute('clip-path','url(#reportGraphClip)'));}
+
+ chart.setAttribute('x','0');chart.setAttribute('y',String(chartTop));chart.setAttribute('width',W);chart.setAttribute('height',H);
+ root.appendChild(chart);y=chartTop+H+12;
+ let lx=30;for(const band of bands.filter(b=>state.on.has(b))){root.appendChild(el('rect',{x:lx,y:y-15,width:120,height:24,rx:4,fill:printMode?'#ffffff':'#193796'}));root.appendChild(el('line',{x1:lx+8,x2:lx+32,y1:y-3,y2:y-3,stroke:outputCols[band],'stroke-width':3}));tx(lx+40,y+2,names[band],14,{fill:outputCols[band]});lx+=132;}
+ y+=32;paragraph('Solid lines: selected S/N limit. Dashed lines: stellar-pixel saturation.');
+ if(printMode)paragraph('White-background print view. All plotted limits are identical to the on-screen graph.');
+ else paragraph('Very dark blue: below the Clear (L) S/N threshold. Light blue: above the uppermost saturation curve across all five filters.');
+ paragraph('Theoretical planning model with any stated manual offsets; not a guarantee of measured photometric precision.');
+ const height=y+14;root.setAttribute('height',height);root.setAttribute('viewBox','0 0 '+W+' '+height);bg.setAttribute('height',height);return root;
+}
+function preparePrint(){$('printReport').replaceChildren(reportSVG(true));}
+function saveSVG(){download(new Blob([new XMLSerializer().serializeToString(reportSVG())],{type:'image/svg+xml'}),`AG14_QHY268M_SNR${state.snr}_v${APP_VERSION}.svg`)}
+function savePNG(){const svg=reportSVG(),width=Number(svg.getAttribute('width')),height=Number(svg.getAttribute('height'));
+ const obj=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(svg)],{type:'image/svg+xml;charset=utf-8'})),img=new Image();
+ img.onload=()=>{const canvas=document.createElement('canvas');canvas.width=width*2;canvas.height=height*2;const ctx=canvas.getContext('2d');ctx.fillStyle='white';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);canvas.toBlob(blob=>{if(blob)download(blob,`AG14_QHY268M_SNR${state.snr}_v${APP_VERSION}.png`);URL.revokeObjectURL(obj)},'image/png')};
+ img.onerror=()=>{URL.revokeObjectURL(obj);alert('PNG export failed; use SVG export instead.')};img.src=obj;
+}
+// Independent regression targets taken from the actual October 2026 CSV snapshots.
+const expected30=[['B',3,14.217951087329157,7.200797043535284],['V',300,17.419766304647716,12.386649351054954],['R',300,17.418610427664397,12.677927733593714],['I',1000,17.424689743227834,14.387741873979063],['L',1000,18.712576897325942,15.945032126513464],['L',300,18.047415993566446,14.032137069395105]];
+const old3=[['B',300,20.5724,12.7632],['V',300,20.0190,12.4619],['R',300,20.0020,12.7467],['I',300,18.9548,11.8702],['L',300,20.7031,14.3287],['B',1000,21.2336,14.1251],['V',1000,20.6779,13.8569],['R',1000,20.6592,14.2091],['I',1000,19.6114,13.3920],['L',1000,21.3582,16.5678]];
+function verify(){const p={...baseline,radius:4.287245,scale:0.583125,on:new Set(bands)},tol=1e-6;let max30=0, allPass=true, finite=true,mono=true,inv=true,satInvariant=true;
+ for(const [b,t,lim,sat] of expected30){const m=model(p,t,30,b);max30=Math.max(max30,Math.abs(lim-m.limiting),Math.abs(sat-m.sat));if(Math.abs(lim-m.limiting)>tol||Math.abs(sat-m.sat)>tol)allPass=false;
+   const realq=qAt(p,t,m.limiting,b);if(Math.abs(realq-30)>1e-9)inv=false;
+   if(Math.abs(model(p,t,3,b).sat-model(p,t,200,b).sat)>1e-9)satInvariant=false;}
+ for(const b of bands){let prev=-1e30;for(let j=0;j<100;j++){const t=Math.pow(10,-3+j*6/99);const m=model(p,t,30,b);if(!Number.isFinite(m.limiting))finite=false;if(m.limiting<prev-1e-8)mono=false;prev=m.limiting;}}
+ let delta3L=0,delta3S=0;for(const [b,t,lim,sat] of old3){const m=model(p,t,3,b);delta3L=Math.max(delta3L,Math.abs(m.limiting-lim));delta3S=Math.max(delta3S,Math.abs(m.sat-sat));}
+ const ok=allPass&&finite&&mono&&inv&&satInvariant;$('statusBadge').textContent=ok?'Math verified':'Check failed';$('statusBadge').className='status'+(ok?'':' alert');
+ $('validation').innerHTML=`<strong>${ok?'PASS':'CHECK'} — ${expected30.length} archived S/N 30 checkpoints (tolerance 10⁻⁶ mag)</strong><br>Maximum absolute deviation: <span class="mono">${max30.toExponential(2)} mag</span>.<br>Direct S/N substitution: ${inv?'PASS':'FAIL'} · Monotonic limiting magnitude: ${mono?'PASS':'FAIL'} · Saturation S/N-invariance: ${satInvariant?'PASS':'FAIL'} · Finite calculation: ${finite?'PASS':'FAIL'}.`;
+ $('legacyAudit').innerHTML=`<strong>Historical S/N = 3 comparison (10 sampled archive values):</strong> up to ${fmt(delta3L,3)} mag difference in faint limits and ${fmt(delta3S,3)} mag in saturation. Across the complete archived 55-row dataset, the audit found differences up to <strong>0.649 mag</strong> and <strong>0.996 mag</strong>, respectively. The two historical plots used different band-response coefficients; both cannot be reproduced exactly with a single calibration. This app consistently adopts the S/N 30 coefficient set.`;
+ return {ok,max30,delta3L,delta3S};}
+function saveOffsets(){try{localStorage.setItem('flarestarMagnitudeOffsets',JSON.stringify({reference:state.offsetReference,values:Object.fromEntries(bands.map(b=>[b,state.offsetEntered.includes(b)?state.magOffsets[b]:null]))}));}catch{$('offsetStatus').textContent+=' Browser storage unavailable; record offsets for reuse.';}}
+function restoreOffsets(){try{const saved=JSON.parse(localStorage.getItem('flarestarMagnitudeOffsets')||'{}'),values=saved.values||saved;for(const b of bands)if(Number.isFinite(values[b])&&Math.abs(values[b])<=5)$('offset'+b).value=values[b];if(bands.includes(saved.reference))$('offsetReference').value=saved.reference;}catch{}}
+function wire(){$('offsetReference').addEventListener('change',()=>{render();saveOffsets();});for(const b of bands)$('offset'+b).addEventListener('input',()=>{render();saveOffsets();});$('resetOffsets').addEventListener('click',()=>{for(const b of bands)$('offset'+b).value='';render();saveOffsets();});const ids=['snr','tmin','tmax','sky','seeing','radius','plateScaleInput','profile','skyPixels','compSnr','refTime','targetMag','targetBand','cursorBand'];for(const id of ids)$(id).addEventListener('input',render);$('snrSlider').addEventListener('input',e=>{$('snr').value=e.target.value;render()});$('annulus').addEventListener('change',render);
+ $('preset3').addEventListener('click',()=>setValues({snr:3,tmin:.001,tmax:1000}));$('preset30').addEventListener('click',()=>setValues({snr:30,tmin:3,tmax:1000}));$('reset').addEventListener('click',()=>{state.on=new Set(bands);document.querySelectorAll('[data-band]').forEach(c=>c.checked=true);setValues(baseline);saveOffsets()});
+ window.addEventListener('beforeprint',preparePrint);$('printGraph').addEventListener('click',()=>{preparePrint();window.print();});$('saveSvg').addEventListener('click',saveSVG);$('savePng').addEventListener('click',savePNG);$('saveCsv').addEventListener('click',()=>download(new Blob([makeCsv()],{type:'text/csv;charset=utf-8'}),`AG14_QHY268M_SNR${state.snr}_model.csv`));}
+window.AG14Calculator={model,qAt,magError,diffMagError,cursorPhotometry,inverseTime,satTime,profiles,verify,version:APP_VERSION,nativeScale:SCALE,getState:()=>({...state,magOffsets:{...state.magOffsets},on:[...state.on]})};
+function initializeObservationDefaults(){
+ for(const [key,id] of [['tmin','tmin'],['tmax','tmax'],['sky','sky'],['seeing','seeing'],['radius','radius'],['scale','plateScaleInput'],['profile','profile']])$(id).value=baseline[key];
+}
+initializeObservationDefaults();setupFilters();wire();restoreOffsets();render();verify();
+})();
+</script>
+</body></html>
